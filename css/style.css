@@ -1,0 +1,22 @@
+	body {
+
+	background: url(../img/background.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	}
+
+	.korekta1 {
+		margin-top: 2%;
+		background-color: white;
+		box-shadow: 5px 5px 20px #182019; 
+		opacity: 0.9;
+	}
+
+	.korekta2 {
+		margin-top: 2px;
+		background-color: white;
+		box-shadow: 5px 5px 20px #182019; 
+		opacity: 0.9;
+	}

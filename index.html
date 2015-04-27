@@ -1,0 +1,183 @@
+﻿<!doctype html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<title>Zadanie - kalendarz</title>
+	<link href="css/style.css" rel="stylesheet" />
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/datepicker.css" rel="stylesheet">
+
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="row">
+						<div class="col-xs-7 text-center korekta1"><h2>KALENDARZ</h2></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-7 text-center korekta1" id="month"><h4><button type="button" id="prev" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-triangle-left"></i></button><bdi id="miesiac_rok">&nbspKWIECIEŃ&nbsp2015&nbsp</bdi><button type="button" id="next" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-triangle-right"></i></button></h4></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-1 korekta1"><h4>Pn</h4></div>
+						<div class="col-xs-1 korekta1"><h4>Wt</h4></div>
+						<div class="col-xs-1 korekta1"><h4>Śr</h4></div>
+						<div class="col-xs-1 korekta1"><h4>Cz</h4></div>
+						<div class="col-xs-1 korekta1"><h4>Pt</h4></div>
+						<div class="col-xs-1 korekta1"><h4>S</h4></div>
+						<div class="col-xs-1 korekta1"><h4>N</h4></div>
+					</div>
+					<div id="calendar_body">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-xs-10 text-center korekta1"><h2>REZERWACJA</h2></div>
+					<div class="col-xs-5 korekta1"><a href="#" class="btn btn-default btn-xs pull-right" id="dp1" data-date-format="yyyy-mm-dd" data-date="2015-05-01"><i class="glyphicon glyphicon-calendar"></i>Zmień</a><h4>START: </h4></div>
+					<div class="col-xs-5 korekta1"><a href="#" class="btn btn-default btn-xs pull-right" id="dp2" data-date-format="yyyy-mm-dd" data-date="2015-05-01"><i class="glyphicon glyphicon-calendar"></i>Zmień</a><h4>KONIEC: </h4></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-5 korekta1 text-center" id="startDate"><h3>2012-02-07</h3></div>
+					<div class="col-xs-5 korekta1 text-center" id="endDate"><h3>2012-02-25</h3></div>
+				</div>
+				<div class="row">
+
+					<div class="col-xs-10 korekta1 text-right"><h3><button type="button" id="send" class="btn btn-default btn-lg ">ZAREZERWUJ POKÓJ <i class="glyphicon glyphicon-hand-left"></i></button></h3></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="sources/jquery-2.1.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script>
+
+
+    	$('document').ready(function(){
+
+    		function daysInMonth(month,year) {
+			    return new Date(year, month, 0).getDate();
+			}
+
+			var calendar_build = '<div class="row">';
+
+    		for(i=1; i <= 42; i++){
+	    		
+	    		day_build = i-2;
+	    		if(day_build <= 0 || day_build > daysInMonth(3,2015)){
+	    		
+	    			calendar_build +='<div class="col-xs-1 korekta2"><h4>&nbsp</h4></div>';
+	    		}else{
+
+	    			calendar_build +='<div class="col-xs-1 korekta2"><h4>'+day_build+'</h4></div>';
+	    		}
+
+
+
+	    		if(i==7||i==14||i==21||i==28||i==35){calendar_build +='</div><div class="row">';}
+	    		if(i==42){calendar_build +='</div>';}
+    		}
+
+    		$('#calendar_body').html(calendar_build);
+    		
+
+
+			var tempDate = new Date();
+
+			var year = tempDate.getFullYear();
+			var month = tempDate.getMonth()+1;
+			var day = tempDate.getDate();
+			
+			if(day<10) day='0'+day;
+			if(month<10) month='0'+month;
+
+			beginDate = '<h3>'+year+'-'+month+'-'+day+'</h3>';
+
+
+    		$('#startDate').html(beginDate);
+    		$('#endDate').html(beginDate);
+    	})
+
+
+    		var calendar = new Date();
+
+			year = calendar.getFullYear();
+			month = calendar.getMonth();
+			day = calendar.getDate();
+			
+			var monthNames = new Array("STYCZEŃ","LUTY","MARZEC","KWIECIEŃ","MAJ","CZERWIEC","LIPIEC","SIERPIEŃ","WRZESIEŃ","PAŹDZIERNIK","LISTOPAD","GRUDZIEŃ");
+			
+			var month_temp = 0;
+
+		$('#prev').on('click', function(){	   
+
+			var temp_value = month + month_temp;
+			
+			month_temp--;
+			
+			$('#miesiac_rok').html("&nbsp"+monthNames[temp_value] +"&nbsp"+year+"&nbsp");
+
+			if(month_temp==-month){month_temp = 8}
+
+		});
+		
+
+		$('#next').on('click', function(){	   
+
+			var temp_value= month + month_temp;
+
+			month_temp++;
+
+			$('#miesiac_rok').html("&nbsp"+monthNames[temp_value] +"&nbsp"+year+"&nbsp");
+
+			if(month_temp==11){month_temp = -3}
+		});
+
+
+		$('#dp1').datepicker().on('changeDate', function(ev){	   
+				$('#dp1').datepicker('hide');
+
+				var year = ev.date.getFullYear();
+				var month = ev.date.getMonth()+1;
+				var day = ev.date.getDate();
+				
+				if(day<10) day='0'+day;
+				if(month<10) month='0'+month;
+
+				startDate.innerHTML = '<h3>'+year+'-'+month+'-'+day+'</h3>';
+
+			if (ev.date.valueOf() < startDate.valueOf()){
+				console.log("przekracza");
+			}
+		});
+
+
+		$('#dp2').datepicker().on('changeDate', function(ev){	 
+				$('#dp2').datepicker('hide');
+
+				var year = ev.date.getFullYear();
+				var month = ev.date.getMonth()+1;
+				var day = ev.date.getDate();
+				
+				if(day<10) day='0'+day;
+				if(month<10) month='0'+month;
+
+				endDate.innerHTML = '<h3>'+year+'-'+month+'-'+day+'</h3>';
+
+			if (ev.date.valueOf() < endDate.valueOf()){
+				console.log("przekracza2");
+			}
+		});
+
+		$('#send').on('click', function(){alert("Rejestracja została dokonana");});
+
+
+
+    </script>
+</body>
+</html>
